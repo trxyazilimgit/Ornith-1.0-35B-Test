@@ -1,0 +1,3054 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMM Pro Panel - Sosyal Medya Hizmetleri</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & GENEL ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5a4bd1;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #e17055;
+            --dark: #2d3436;
+            --light: #f8f9fa;
+            --gray: #636e72;
+            --bg-gradient: linear-gradient(135deg, #0c0c1d 0%, #1a1a3e 50%, #0c0c1d 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #b2bec3;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --radius-xs: 8px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a3e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* ===== ANİMASYONLAR ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(108, 92, 231, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(108, 92, 231, 0.6); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-fadeUp { animation: fadeInUp 0.8s ease forwards; }
+        .animate-fadeDown { animation: fadeInDown 0.8s ease forwards; }
+        .animate-fadeLeft { animation: fadeInLeft 0.8s ease forwards; }
+        .animate-fadeRight { animation: fadeInRight 0.8s ease forwards; }
+        .animate-bounceIn { animation: bounceIn 0.8s ease forwards; }
+
+        /* ===== PARTICLES BG ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; background: var(--secondary); }
+        .particle:nth-child(2) { top: 20%; left: 60%; animation-delay: 1s; }
+        .particle:nth-child(3) { top: 40%; left: 80%; animation-delay: 2s; background: var(--accent); }
+        .particle:nth-child(4) { top: 60%; left: 10%; animation-delay: 3s; background: var(--secondary); }
+        .particle:nth-child(5) { top: 80%; left: 50%; animation-delay: 4s; }
+        .particle:nth-child(6) { top: 30%; left: 90%; animation-delay: 5s; background: var(--accent); }
+        .particle:nth-child(7) { top: 70%; left: 30%; animation-delay: 0.5s; }
+        .particle:nth-child(8) { top: 90%; left: 70%; animation-delay: 1.5s; background: var(--secondary); }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: var(--transition);
+            backdrop-filter: blur(0px);
+        }
+
+        .navbar.scrolled {
+            background: rgba(13, 13, 29, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: var(--radius-xs);
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(108, 92, 231, 0.15);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-balance {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(0, 206, 201, 0.1);
+            border: 1px solid rgba(0, 206, 201, 0.2);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .nav-balance i {
+            font-size: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border: none;
+            border-radius: var(--radius-xs);
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #00a884);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 184, 148, 0.5);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent), #e84393);
+            color: white;
+            box-shadow: 0 4px 15px rgba(253, 121, 168, 0.4);
+        }
+
+        .btn-lg {
+            padding: 16px 36px;
+            font-size: 16px;
+            border-radius: var(--radius-sm);
+        }
+
+        .btn-sm {
+            padding: 8px 18px;
+            font-size: 13px;
+        }
+
+        .btn-icon {
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            border-radius: 10px;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: 160px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(108, 92, 231, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(0, 206, 201, 0.06) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            animation: fadeInLeft 1s ease;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(108, 92, 231, 0.15);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .hero-badge i {
+            animation: pulse 2s ease infinite;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-desc {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 36px;
+            max-width: 520px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .hero-visual {
+            position: relative;
+            animation: fadeInRight 1s ease;
+        }
+
+        .hero-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 40px;
+            position: relative;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.5), transparent, rgba(0, 206, 201, 0.5));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .hero-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .hero-card-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .hero-card-live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .hero-card-live::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        .hero-order-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .hero-order-item:last-child {
+            border-bottom: none;
+        }
+
+        .hero-order-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .hero-order-info {
+            flex: 1;
+        }
+
+        .hero-order-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .hero-order-status {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .hero-order-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: rgba(13, 13, 29, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: float 4s ease-in-out infinite;
+            box-shadow: var(--shadow);
+        }
+
+        .floating-badge.top-right {
+            top: -20px;
+            right: -20px;
+            animation-delay: 1s;
+        }
+
+        .floating-badge.bottom-left {
+            bottom: -20px;
+            left: -20px;
+            animation-delay: 2s;
+        }
+
+        .floating-badge i {
+            font-size: 18px;
+        }
+
+        .floating-badge .fb-text {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .floating-badge .fb-sub {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* ===== PLATFORM SECTION ===== */
+        .section {
+            padding: 100px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 18px;
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(108, 92, 231, 0.2);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 44px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ===== PLATFORM TABS ===== */
+        .platform-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 50px;
+        }
+
+        .platform-tab {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .platform-tab:hover {
+            border-color: var(--primary);
+            color: var(--text-primary);
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        .platform-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        .platform-tab i {
+            font-size: 18px;
+        }
+
+        .platform-tab .tab-count {
+            font-size: 11px;
+            padding: 2px 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+        }
+
+        /* ===== PACKAGES GRID ===== */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .package-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .package-card:nth-child(1) { animation-delay: 0.1s; }
+        .package-card:nth-child(2) { animation-delay: 0.2s; }
+        .package-card:nth-child(3) { animation-delay: 0.3s; }
+        .package-card:nth-child(4) { animation-delay: 0.4s; }
+        .package-card:nth-child(5) { animation-delay: 0.5s; }
+        .package-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .package-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(108, 92, 231, 0.2);
+        }
+
+        .package-card.featured {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.05);
+        }
+
+        .package-card.featured::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .package-popular {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 4px 14px;
+            background: linear-gradient(135deg, var(--accent), #e84393);
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .package-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .package-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .package-icon.instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .package-icon.youtube { background: linear-gradient(135deg, #ff0000, #cc0000); }
+        .package-icon.twitter { background: linear-gradient(135deg, #1da1f2, #0d8ecf); }
+        .package-icon.tiktok { background: linear-gradient(135deg, #010101, #69C9D0); }
+        .package-icon.facebook { background: linear-gradient(135deg, #1877f2, #0d65d9); }
+        .package-icon.telegram { background: linear-gradient(135deg, #2aabee, #229ed9); }
+        .package-icon.snapchat { background: linear-gradient(135deg, #fffc00, #f7d800); }
+        .package-icon.twitch { background: linear-gradient(135deg, #9146ff, #772ce8); }
+        .package-icon.pinterest { background: linear-gradient(135deg, #e60023, #c80020); }
+        .package-icon.linkedin { background: linear-gradient(135deg, #0077b5, #005e93); }
+        .package-icon.spotify { background: linear-gradient(135deg, #1db954, #1aa34a); }
+        .package-icon.discord { background: linear-gradient(135deg, #5865f2, #4752c4); }
+
+        .package-info {
+            flex: 1;
+        }
+
+        .package-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .package-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .package-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .package-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .package-features li:last-child {
+            border-bottom: none;
+        }
+
+        .package-features li i {
+            font-size: 14px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .package-features li i.fa-check {
+            color: var(--success);
+        }
+
+        .package-features li i.fa-times {
+            color: var(--danger);
+        }
+
+        .package-features li i.fa-bolt {
+            color: var(--warning);
+        }
+
+        .package-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .package-price {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .package-price-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .package-price-value {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--success), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .package-price-unit {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .package-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* ===== PRICING TABLE ===== */
+        .pricing-section {
+            background: rgba(108, 92, 231, 0.03);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 50px;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 40px 32px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.08);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+
+        .pricing-card.popular::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .pricing-popular-tag {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pricing-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .pricing-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .pricing-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .pricing-price span {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .pricing-period {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .pricing-features li i {
+            font-size: 14px;
+        }
+
+        .pricing-features li i.fa-check-circle {
+            color: var(--success);
+        }
+
+        .pricing-features li i.fa-times-circle {
+            color: var(--danger);
+            opacity: 0.5;
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(108, 92, 231, 0.15);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ===== ORDER FORM SECTION ===== */
+        .order-section {
+            background: rgba(108, 92, 231, 0.03);
+        }
+
+        .order-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .order-form {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xs);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23b2bec3' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .order-summary {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 32px;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 14px;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: var(--text-secondary);
+        }
+
+        .summary-value {
+            font-weight: 600;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0 0;
+            margin-top: 12px;
+            border-top: 2px solid var(--primary);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .summary-total .total-price {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--success), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            padding: 60px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .testimonial-stars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-stars i {
+            color: var(--warning);
+            font-size: 14px;
+        }
+
+        .testimonial-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .testimonial-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .testimonial-role {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* ===== FAQ ===== */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+        }
+
+        .faq-item.active {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.15);
+        }
+
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            color: var(--primary);
+        }
+
+        .faq-question i {
+            font-size: 14px;
+            transition: var(--transition);
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-answer-inner {
+            padding: 0 24px 20px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 80px 0 30px;
+            border-top: 1px solid var(--glass-border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 16px;
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-social {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .footer-social:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 30px;
+            border-top: 1px solid var(--glass-border);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .footer-payments {
+            display: flex;
+            gap: 12px;
+        }
+
+        .payment-icon {
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(13, 13, 29, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 9999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .toast-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-4px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .hero-title { font-size: 44px; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .pricing-grid { grid-template-columns: 1fr; max-width: 500px; margin: 50px auto 0; }
+            .pricing-card.popular { transform: scale(1); }
+            .pricing-card.popular:hover { transform: translateY(-8px); }
+        }
+
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .mobile-toggle { display: flex; }
+            .nav-balance { display: none; }
+            .hero-stats { gap: 24px; }
+            .order-container { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 36px; }
+            .hero-desc { font-size: 16px; }
+            .hero-buttons { flex-direction: column; }
+            .hero-stats { flex-direction: column; gap: 16px; }
+            .section-title { font-size: 32px; }
+            .packages-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+            .platform-tabs { gap: 6px; }
+            .platform-tab { padding: 10px 16px; font-size: 13px; }
+        }
+
+        /* ===== MOBILE NAV ===== */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(13, 13, 29, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            transform: translateX(-100%);
+            transition: var(--transition);
+        }
+
+        .mobile-nav.open {
+            transform: translateX(0);
+        }
+
+        .mobile-nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 600;
+            padding: 12px 24px;
+            transition: var(--transition);
+        }
+
+        .mobile-nav a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-nav-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* ===== LOADING SKELETON ===== */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        /* ===== COUNTER ANIMATION ===== */
+        .counter {
+            display: inline-block;
+        }
+
+        /* ===== SPECIAL OFFER BANNER ===== */
+        .offer-banner {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 12px 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .offer-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .offer-text {
+            font-size: 14px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .offer-text i {
+            margin-right: 8px;
+        }
+
+        .offer-text .highlight {
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PARTICLES -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- SPECIAL OFFER BANNER -->
+    <div class="offer-banner">
+        <div class="container">
+            <div class="offer-text">
+                <i class="fas fa-fire"></i>
+                <span class="highlight">YENİ YIL İNDİRİMİ!</span> Tüm paketlerde %30 indirim — Kod: <span class="highlight">YENI2025</span>
+                <i class="fas fa-fire"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">S</div>
+                <span class="logo-text">SMM Pro</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#paketler" class="active">Paketler</a></li>
+                <li><a href="#fiyatlar">Fiyatlar</a></li>
+                <li><a href="#ozellikler">Özellikler</a></li>
+                <li><a href="#siparis">Sipariş</a></li>
+                <li><a href="#sss">S.S.S</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <div class="nav-balance">
+                    <i class="fas fa-wallet"></i>
+                    <span>₺1,250.00</span>
+                </div>
+                <a href="#" class="btn btn-primary btn-sm">
+                    <i class="fas fa-user-plus"></i> Giriş / Kayıt
+                </a>
+                <div class="mobile-toggle" id="mobileToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" id="mobileClose">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="#paketler">Paketler</a>
+        <a href="#fiyatlar">Fiyatlar</a>
+        <a href="#ozellikler">Özellikler</a>
+        <a href="#siparis">Sipariş</a>
+        <a href="#sss">S.S.S</a>
+        <a href="#" class="btn btn-primary">Giriş / Kayıt</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-bolt"></i>
+                    Türkiye'nin #1 SMM Paneli
+                </div>
+                <h1 class="hero-title">
+                    Sosyal Medyanı <span>Patlat</span> 🚀
+                </h1>
+                <p class="hero-desc">
+                    Instagram, YouTube, TikTok ve daha fazla platform için premium sosyal medya hizmetleri. 
+                    Anında teslimat, düşük fiyat ve yüksek kalite garantisi.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#paketler" class="btn btn-primary btn-lg">
+                        <i class="fas fa-rocket"></i> Paketleri İncele
+                    </a>
+                    <a href="#siparis" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-shopping-cart"></i> Hemen Sipariş Ver
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number counter" data-target="2500000">0</div>
+                        <div class="hero-stat-label">Toplam Sipariş</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number counter" data-target="150000">0</div>
+                        <div class="hero-stat-label">Mutlu Müşteri</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number counter" data-target="99">0</div>
+                        <div class="hero-stat-label">Memnuniyet %</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="hero-card-header">
+                        <div class="hero-card-title">📊 Canlı Siparişler</div>
+                        <div class="hero-card-live">Canlı</div>
+                    </div>
+
+                    <div class="hero-order-item">
+                        <div class="hero-order-icon" style="background: rgba(225,48,108,0.15); color: #e1306c;">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="hero-order-info">
+                            <div class="hero-order-name">@kullanici_adi</div>
+                            <div class="hero-order-status">10,000 Beğeni — İşleniyor</div>
+                        </div>
+                        <div class="hero-order-price">₺150</div>
+                    </div>
+
+                    <div class="hero-order-item">
+                        <div class="hero-order-icon" style="background: rgba(255,0,0,0.15); color: #ff0000;">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="hero-order-info">
+                            <div class="hero-order-name">@kanal_ismi</div>
+                            <div class="hero-order-status">5,000 Abone — Tamamlandı</div>
+                        </div>
+                        <div class="hero-order-price">₺350</div>
+                    </div>
+
+                    <div class="hero-order-item">
+                        <div class="hero-order-icon" style="background: rgba(0,0,0,0.2); color: #fff;">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <div class="hero-order-info">
+                            <div class="hero-order-name">@tiktok_user</div>
+                            <div class="hero-order-status">50,000 İzlenme — Tamamlandı</div>
+                        </div>
+                        <div class="hero-order-price">₺80</div>
+                    </div>
+
+                    <div class="hero-order-item">
+                        <div class="hero-order-icon" style="background: rgba(29,161,242,0.15); color: #1da1f2;">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <div class="hero-order-info">
+                            <div class="hero-order-name">@twitter_user</div>
+                            <div class="hero-order-status">2,000 Retweet — İşleniyor</div>
+                        </div>
+                        <div class="hero-order-price">₺120</div>
+                    </div>
+                </div>
+
+                <div class="floating-badge top-right">
+                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                    <div>
+                        <div class="fb-text" style="color: var(--success);">Sipariş Tamamlandı</div>
+                        <div class="fb-sub">500 Takipçi • @user_123</div>
+                    </div>
+                </div>
+
+                <div class="floating-badge bottom-left">
+                    <i class="fas fa-shield-alt" style="color: var(--primary);"></i>
+                    <div>
+                        <div class="fb-text">Güvenli Ödeme</div>
+                        <div class="fb-sub">256-bit SSL</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLATFORM TABS & PACKAGES -->
+    <section class="section" id="paketler">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-th-large"></i>
+                    Paketlerimiz
+                </div>
+                <h2 class="section-title">Platformuna <span>Özel</span> Paketler</h2>
+                <p class="section-subtitle">
+                    Her platform için özel tasarlanmış premium paketlerimizi keşfedin. 
+                    İhtiyacınıza en uygun paketi seçin!
+                </p>
+            </div>
+
+            <!-- Platform Tabs -->
+            <div class="platform-tabs">
+                <div class="platform-tab active" data-platform="all">
+                    <i class="fas fa-globe"></i>
+                    Tümü
+                    <span class="tab-count">24</span>
+                </div>
+                <div class="platform-tab" data-platform="instagram">
+                    <i class="fab fa-instagram"></i>
+                    Instagram
+                    <span class="tab-count">6</span>
+                </div>
+                <div class="platform-tab" data-platform="youtube">
+                    <i class="fab fa-youtube"></i>
+                    YouTube
+                    <span class="tab-count">5</span>
+                </div>
+                <div class="platform-tab" data-platform="twitter">
+                    <i class="fab fa-twitter"></i>
+                    Twitter/X
+                    <span class="tab-count">4</span>
+                </div>
+                <div class="platform-tab" data-platform="tiktok">
+                    <i class="fab fa-tiktok"></i>
+                    TikTok
+                    <span class="tab-count">5</span>
+                </div>
+                <div class="platform-tab" data-platform="telegram">
+                    <i class="fab fa-telegram"></i>
+                    Telegram
+                    <span class="tab-count">4</span>
+                </div>
+            </div>
+
+            <!-- Packages Grid -->
+            <div class="packages-grid">
+
+                <!-- INSTAGRAM PACKAGES -->
+                <div class="package-card" data-category="instagram">
+                    <div class="package-header">
+                        <div class="package-icon instagram">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="package-info">
+                            <div class="package-name">Instagram Beğeni (Başlangıç)</div>
+                            <div class="package-desc">Gerçek kullanıcı beğenileri</div>
+                        </div>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 1,000 - 10,000 Beğeni</li>
+                        <li><i class="fas fa-check"></i> Gerçek Hesaplar</li>
+                        <li><i class="fas fa-check"></i> 24-48 Saat Teslimat</li>
+                        <li><i class="fas fa-check"></i> Reklama Özelliği</li>
+                        <li><i class="fas fa-bolt"></i> Hızlı Başlangıç</li>
+                        <li><i class="fas fa-check"></i> 30 Gün Dolum Garantisi</li>
+                    </ul>
+                    <div class="package-footer">
+                        <div class="package-price">
+                            <span class="package-price-label">1,000 adet fiyatı</span>
+                            <span class="package-price-value">₺15 <span class="package-price-unit">/ 1K</span></span>
+                        </div>
+                        <div class="package-actions">
+                            <a href="#siparis" class="btn btn-primary btn-sm">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="package-card featured" data-category="instagram">
+                    <span class="package-popular">⭐ Popüler</span>
+                    <div class="package-header">
+                        <div class="package-icon instagram">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="package-info">
+                            <div class="package-name">Instagram Takipçi (Premium)</div>
+                            <div class="package-desc">Yüksek kaliteli gerçek takipçiler</div>
+                        </div>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 1,000 - 100,000 Takipçi</li>
+                        <li><i class="fas fa-check"></i> Profiller Doğrulanmış</li>
+                        <li><i class="fas fa-check"></i> 1-7 Gün Teslimat</li>
+                        <li><i class="fas fa-check"></i> Düşük Düşüş Oranı</li>
+                        <li><i class="fas fa-bolt"></i> Hızlı Başlangıç</li>
+                        <li><i class="fas fa-check"></i> 60 Gün Dolum Garantisi</li>
+                        <li><i class="fas fa-check"></i> Karışık Hesaplar (TR/EN)</li>
+                    </ul>
+                    <div class="package-footer">
+                        <div class="package-price">
+                            <span class="package-price-label">1,000 adet fiyatı</span>
+                            <span class="package-price-value">₺35 <span class="package-price-unit">/ 1K</span></span>
+                        </div>
+                        <div class="package-actions">
+                            <a href="#siparis" class="btn btn-primary btn-sm">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="package-card" data-category="instagram">
+                    <div class="package-header">
+                        <div class="package-icon instagram">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="package-info">
+                            <div class="package-name">Instagram Reels İzlenme</div>
+                            <div class="package-desc">Reels videoları için yüksek izlenme</div>
+                        </div>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 1,000 - 1M İzlenme</li>
+                        <li><i class="fas fa-check"></i> Gerçek Kullanıcılar</li>
+                        <li><i class="fas fa-check"></i> Anında Teslimat</li>
+                        <li><i class="fas fa-check"></i> Yüksek Etkileşim</li>
+                        <li><i class="fas fa-bolt"></i> Hızlı Başlangıç</li>
+                        <li><i class="fas fa-check"></i> 30 Gün Garantisi</li>
+                    </ul>
+                    <div class="package-footer">
+                        <div class="package-price">
+                            <span class="package-price-label">1,000 adet fiyatı</span>
+                            <span class="package-price-value">₺8 <span class="package-price-unit">/ 1K</span></span>
+                        </div>
+                        <div class="package-actions">
+                            <a href="#siparis" class="btn btn-primary btn-sm">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- YOUTUBE PACKAGES -->
+                <div class="package-card" data-category="youtube">
+                    <div class="package-header">
+                        <div class="package-icon youtube">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="package-info">
+                            <div class="package-name">YouTube Abone (Premium)</div>
+                            <div class="package-desc">Kanalınız için gerçek abone artışı</div>
+                        </div>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 100 - 50,000 Abone</li>
+                        <li><i class="fas fa-check"></i> Gerçek Hesaplar</li>
+                        <li><i class="fas fa-check"></i> 3-14 Gün Teslimat</li>
+                        <li><i class="fas fa-check"></i> Monetizasyon Uyumlu</li>
+                        <li><i class="fas fa-bolt"></i> Hızlı Başlangıç</li>
+                        <li><i class="fas fa-check"></i> 60 Gün Garantisi</li>
+                    </ul>
+                    <div class="package-footer">
+                        <div class="package-price">
+                            <span class="package-price-label">1,000 adet fiyatı</span>
+                            <span class="package-price-value">₺350 <span class="package-price-unit">/ 1K</span></span>
+                        </div>
+                        <div class="package-actions">
+                            <a href="#siparis" class="btn btn-primary btn-sm">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="package-card" data-category="youtube">
+                    <div class="package-header">
+                        <div class="package-icon youtube">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="package-info">
+                            <div class="package-name">YouTube İzlenme (Video)</div>
+                            <div class="package-desc">Video izlenme sayısı artışı</div>
+                        </div>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 1,000 - 10M İzlenme</li>
+                        <li><i class="fas fa-check"></i> Gerçek Kullanıcılar</li>
+                        <li><i class="fas fa-check"></i> 1-7 Gün Teslimat</li>
+                        <li><i class="fas fa-check"></i> Yüksek İzlenme Süresi</li>
+                        <li><i class="fas fa-bolt"></i> Hızlı Başlangıç</li>
+                        <li><i class="fas fa-check"></i> 30 Gün Garantisi</li>
+                    </ul>
+                    <div class="package-footer">
+                        <div class="package-price">
+                            <span class="package-price-label">1,000 adet fiyatı</span>
+                            <span class="package-price-value">₺25 <span class="package-price-unit">/ 1K</span></span>
+                        </div>
+                        <div class="package-actions">
+                            <a href="#siparis" class="btn btn-primary btn-sm">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="package-card" data-category="youtube">
+                    <div class="package-header">
+                        <div class="package-icon youtube">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="package-info">
+                            <div class="package-name">YouTube Beğeni (Video)</div>
+                            <div class="package-desc">Video beğeni artışı</div>
+                        </div>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 100 - 500,000 Beğeni</li>
+                        <li><i class="fas fa-check"></i> Gerçek Kullanıcılar</li>
+                        <li><i class="fas fa-check"></i> Anında Teslimat</li>
+                        <li><i class="fas fa-check"></i> Yüksek Etkileşim</li>
+                        <li><i class="fas fa-bolt"></i> Hızlı Başlangıç</li>
+                        <li><i class="fas fa-check"></i> 30 Gün Garantisi</li>
+                    </ul>
+                    <div class="package-footer">
+                        <div class="package-price">
+                            <span class="package-price-label">1,000 adet fiyatı</span>
+                            <span class="package-price-value">₺40 <span class="package-price-unit">/ 1K</span></span>
+                        </div>
+                        <div class="package-actions">
+                            <a href="#siparis" class="btn btn-primary btn-sm">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TWITTER/X PACKAGES -->
+                <div class="package-card" data-category="twitter">
+                    <div class="package-header">
+                        <div class="package-icon twitter">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <div class="package-info">
+                            <div class="package-name">Twitter/X Takipçi (Premium)</div>
+                            <div class="package-desc">Profiliniz için güvenilir takipçiler</div>
+                        </div>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 500 - 100,000 Takipçi</li>
+                        <li><i class="fas fa-check"></i> Gerçek Hesaplar</li>
+                        <li><i class="fas fa-check"></i> 1-7 Gün Teslimat</li>
+                        <li><i class="fas fa-check"></i> Karışık Hesaplar</li>
+                        <li><i class="fas fa-bolt"></i> Hızlı Başlangıç</li>
+                        <li><i class="fas fa-check"></i> 60 Gün Garantisi</li>
+                    </ul>
+                    <div class="package-footer">
+                        <div class="package-price">
+                            <span class="package-price-label">1,000 adet fiyatı</span>
+                            <span class="package-price-value">₺50 <span class="package-price-unit">/ 1K</span></span>
+                        </div>
+                        <div class="package-actions">
+                            <a href="#siparis" class="btn btn-primary btn-sm">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TIKTOK PACKAGES -->
+                <div class="package-card featured" data-category="tiktok">
+                    <span class="package-popular">🔥 Trend</span>
+                    <div class="package-header">
+                        <div class="package-icon tiktok" style="background: linear-gradient(135deg, #010101, #69C9D0);">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <div class="package-info">
+                            <div class="package-name">TikTok İzlenme (Viral)</div>
+                            <div class="package-desc">Videolarınızı viral yapın!</div>
+                        </div>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 1,000 - 50M İzlenme</li>
+                        <li><i class="fas fa-check"></i> Gerçek Kullanıcılar</li>
+                        <li><i class="fas fa-check"></i> Anında Teslimat</li>
+                        <li><i class="fas fa-check"></i> Yüksek Etkileşim</li>
+                        <li><i class="fas fa-bolt"></i> Hızlı Başlangıç</li>
+                        <li><i class="fas fa-check"></i> 30 Gün Garantisi</li>
+                    </ul>
+                    <div class="package-footer">
+                        <div class="package-price">
+                            <span class="package-price-label">1,000 adet fiyatı</span>
+                            <span class="package-price-value">₺5 <span class="package-price-unit">/ 1K</span></span>
+                        </div>
+                        <div class="package-actions">
+                            <a href="#siparis" class="btn btn-primary btn-sm">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TELEGRAM PACKAGES -->
+                <div class="package-card" data-category="telegram">
+                    <div class="package-header">
+                        <div class="package-icon telegram">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <div class="package-info">
+                            <div class="package-name">Telegram Üye (Premium)</div>
+                            <div class="package-desc">Kanalınız için gerçek üye artışı</div>
+                        </div>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 1,000 - 1M Üye</li>
+                        <li><i class="fas fa-check"></i> Gerçek Hesaplar</li>
+                        <li><i class="fas fa-check"></i> 1-7 Gün Teslimat</li>
+                        <li><i class="fas fa-check"></i> Düşük Düşüş Oranı</li>
+                        <li><i class="fas fa-bolt"></i> Hızlı Başlangıç</li>
+                        <li><i class="fas fa-check"></i> 30 Gün Garantisi</li>
+                    </ul>
+                    <div class="package-footer">
+                        <div class="package-price">
+                            <span class="package-price-label">1,000 adet fiyatı</span>
+                            <span class="package-price-value">₺20 <span class="package-price-unit">/ 1K</span></span>
+                        </div>
+                        <div class="package-actions">
+                            <a href="#siparis" class="btn btn-primary btn-sm">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-number counter" data-target="2547832">0</div>
+                    <div class="stat-label">Toplam Sipariş</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number counter" data-target="156420">0</div>
+                    <div class="stat-label">Aktif Müşteri</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-number counter" data-target="12">0</div>
+                    <div class="stat-label">Ortalama Dakika Teslimat</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-number counter" data-target="99">0</div>
+                    <div class="stat-label">Memnuniyet Oranı %</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="section pricing-section" id="fiyatlar">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-tags"></i>
+                    Fiyat Planları
+                </div>
+                <h2 class="section-title">Özel <span>Fiyat</span> Planları</h2>
+                <p class="section-subtitle">
+                    Düzenli kullanıcılar için özel indirimli planlarımız. 
+                    Hangi plan size uygun?
+                </p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-icon" style="background: rgba(0, 206, 201, 0.1); color: var(--secondary);">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <div class="pricing-name">Starter</div>
+                    <div class="pricing-desc">Bireysel kullanıcılar için</div>
+                    <div class="pricing-price">₺99<span>/ay</span></div>
+                    <div class="pricing-period">Aylık ödeme</div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check-circle"></i> 100,000 Kredi (₺100)</li>
+                        <li><i class="fas fa-check-circle"></i> Tüm Platformlar</li>
+                        <li><i class="fas fa-check-circle"></i> Temel Destek</li>
+                        <li><i class="fas fa-check-circle"></i> API Erişimi</li>
+                        <li><i class="fas fa-times-circle"></i> Özel Fiyatlar</li>
+                        <li><i class="fas fa-times-circle"></i> Öncelikli Teslimat</li>
+                        <li><i class="fas fa-times-circle"></i> VIP Destek</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%;">Planı Seç</a>
+                </div>
+
+                <div class="pricing-card popular">
+                    <div class="pricing-popular-tag">En Popüler</div>
+                    <div class="pricing-icon" style="background: rgba(108, 92, 231, 0.1); color: var(--primary);">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="pricing-name">Pro</div>
+                    <div class="pricing-desc">Büyüyen işletmeler için</div>
+                    <div class="pricing-price">₺249<span>/ay</span></div>
+                    <div class="pricing-period">Aylık ödeme</div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check-circle"></i> 500,000 Kredi (₺500)</li>
+                        <li><i class="fas fa-check-circle"></i> Tüm Platformlar</li>
+                        <li><i class="fas fa-check-circle"></i> Öncelikli Destek</li>
+                        <li><i class="fas fa-check-circle"></i> API Erişimi</li>
+                        <li><i class="fas fa-check-circle"></i> Özel Fiyatlar (-15%)</li>
+                        <li><i class="fas fa-check-circle"></i> Öncelikli Teslimat</li>
+                        <li><i class="fas fa-times-circle"></i> VIP Destek</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%;">Planı Seç</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-icon" style="background: rgba(253, 121, 168, 0.1); color: var(--accent);">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="pricing-name">Enterprise</div>
+                    <div class="pricing-desc">Büyük işletmeler için</div>
+                    <div class="pricing-price">₺599<span>/ay</span></div>
+                    <div class="pricing-period">Aylık ödeme</div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check-circle"></i> Sınırsız Kredi</li>
+                        <li><i class="fas fa-check-circle"></i> Tüm Platformlar</li>
+                        <li><i class="fas fa-check-circle"></i> 7/24 Destek</li>
+                        <li><i class="fas fa-check-circle"></i> Gelişmiş API</li>
+                        <li><i class="fas fa-check-circle"></i> Özel Fiyatlar (-30%)</li>
+                        <li><i class="fas fa-check-circle"></i> Anında Teslimat</li>
+                        <li><i class="fas fa-check-circle"></i> VIP Destek</li>
+                    </ul>
+                    <a href="#" class="btn btn-accent" style="width: 100%;">Planı Seç</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section" id="ozellikler">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-star"></i>
+                    Neden Biz?
+                </div>
+                <h2 class="section-title">Farkımız <span>Nedir?</span></h2>
+                <p class="section-subtitle">
+                    Binlerce işletmenin güvendiği SMM panelimizin farklarını keşfedin.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="feature-title">Anında Teslimat</div>
+                    <div class="feature-desc">Siparişlerinizin büyük çoğunluğu 15 dakika içinde işleme alınır ve tamamlanır.</div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-title">Güvenli Ödeme</div>
+                    <div class="feature-desc">256-bit SSL sertifikası ile güvenli ödeme. Kredi kartı, Papara, Havale/EFT seçenekleri.</div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="feature-title">7/24 Destek</div>
+                    <div class="feature-desc">Canlı destek ekibimiz her zaman yanınızda. Ticket, WhatsApp veya Telegram ile ulaşın.</div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-title">Gerçek Hesaplar</div>
+                    <div class="feature-desc">Tüm servislerimiz gerçek, aktif hesaplardan sağlanır. Düşük düşüş garantisi.</div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <div class="feature-title">Kolay Kullanım</div>
+                    <div class="feature-desc">Tek tıkla sipariş verin. Karmaşık süreçler yok. Basit ve anlaşılır arayüz.</div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="feature-title">API Desteği</div>
+                    <div class="feature-desc">Kendi sisteminize entegre edin. RESTful API ile otomatik sipariş ve takip.</div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-redo"></i>
+                    </div>
+                    <div class="feature-title">Dolum Garantisi</div>
+                    <div class="feature-desc">Belirtilen süre içinde düşüş olursa ücretsiz dolum yapılır. Tam memnuniyet.</div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="feature-title">Toplu İndirim</div>
+                    <div class="feature-desc">Toplu siparişlerde özel indirimler. Ne kadar çok sipariş, o kadar çok avantaj!</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ORDER FORM -->
+    <section class="section order-section" id="siparis">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-shopping-cart"></i>
+                    Sipariş Formu
+                </div>
+                <h2 class="section-title">Hızlı <span>Sipariş</span></h2>
+                <p class="section-subtitle">
+                    Aşağıdaki formu doldurarak anında siparişinizi tamamlayın.
+                </p>
+            </div>
+
+            <div class="order-container">
+                <div class="order-form">
+                    <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">
+                        <i class="fas fa-plus-circle" style="color: var(--primary);"></i> Yeni Sipariş
+                    </h3>
+
+                    <div class="form-group">
+                        <label class="form-label">Platform Seçin</label>
+                        <select class="form-input form-select" id="platformSelect">
+                            <option value="">Platform seçiniz...</option>
+                            <optgroup label="Instagram">
+                                <option value="instagram-followers">Instagram Takipçi</option>
+                                <option value="instagram-likes">Instagram Beğeni</option>
+                                <option value="instagram-views">Instagram İzlenme</option>
+                                <option value="instagram-reels">Instagram Reels</option>
+                            </optgroup>
+                            <optgroup label="YouTube">
+                                <option value="youtube-subscribers">YouTube Abone</option>
+                                <option value="youtube-views">YouTube İzlenme</option>
+                                <option value="youtube-likes">YouTube Beğeni</option>
+                            </optgroup>
+                            <optgroup label="Twitter/X">
+                                <option value="twitter-followers">Twitter Takipçi</option>
+                                <option value="twitter-likes">Twitter Beğeni</option>
+                                <option value="twitter-views">Twitter İzlenme</option>
+                            </optgroup>
+                            <optgroup label="TikTok">
+                                <option value="tiktok-views">TikTok İzlenme</option>
+                                <option value="tiktok-followers">TikTok Takipçi</option>
+                                <option value="tiktok-likes">TikTok Beğeni</option>
+                            </optgroup>
+                            <optgroup label="Telegram">
+                                <option value="telegram-members">Telegram Üye</option>
+                                <option value="telegram-views">Telegram İzlenme</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Kullanıcı Adı / Profil URL</label>
+                        <input type="text" class="form-input" placeholder="Örn: @kullanici_adi veya https://instagram.com/kullanici" id="usernameInput">
+                        <div class="form-hint">Kullanıcı adınız (@ ile birlikte) veya tam profil URL'sini girin.</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Miktar</label>
+                            <input type="number" class="form-input" placeholder="1000" min="100" value="1000" id="quantityInput">
+                            <div class="form-hint">Min: 100 | Maks: 1,000,000</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Bakiye (₺)</label>
+                            <input type="text" class="form-input" value="₺1,250.00" readonly id="balanceDisplay" style="opacity: 0.7;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Kupon Kodu (İsteğe Bağlı)</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" class="form-input" placeholder="Kupon kodu..." style="flex: 1;">
+                            <button class="btn btn-secondary">Uygula</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Not / Notlar</label>
+                        <textarea class="form-input" placeholder="Varsa ek notunuzu yazın..." rows="3" style="resize: vertical;"></textarea>
+                    </div>
+
+                    <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="placeOrder()">
+                        <i class="fas fa-check-circle"></i>
+                        Siparişi Onayla & Öde
+                    </button>
+                </div>
+
+                <div class="order-summary">
+                    <div class="summary-title">
+                        <i class="fas fa-receipt" style="color: var(--primary);"></i>
+                        Sipariş Özeti
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-label">Platform</span>
+                        <span class="summary-value" id="summaryPlatform">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Hedef</span>
+                        <span class="summary-value" id="summaryTarget">@kullanici_adi</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Miktar</span>
+                        <span class="summary-value" id="summaryQuantity">1,000</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Birim Fiyat</span>
+                        <span class="summary-value" id="summaryUnitPrice">₺0.015</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">İndirim</span>
+                        <span class="summary-value" style="color: var(--success);" id="summaryDiscount">-₺0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Tahmini Teslimat</span>
+                        <span class="summary-value" id="summaryDelivery">24-48 saat</span>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Toplam</span>
+                        <span class="total-price" id="summaryTotal">₺15.00</span>
+                    </div>
+
+                    <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--glass-border);">
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <span style="padding: 4px 12px; background: rgba(0,184,148,0.1); border: 1px solid rgba(0,184,148,0.2); border-radius: 50px; font-size: 12px; color: var(--success);">
+                                <i class="fas fa-check"></i> Garantili
+                            </span>
+                            <span style="padding: 4px 12px; background: rgba(108,92,231,0.1); border: 1px solid rgba(108,92,231,0.2); border-radius: 50px; font-size: 12px; color: var(--primary);">
+                                <i class="fas fa-bolt"></i> Hızlı Teslimat
+                            </span>
+                            <span style="padding: 4px 12px; background: rgba(0,206,201,0.1); border: 1px solid rgba(0,206,201,0.2); border-radius: 50px; font-size: 12px; color: var(--secondary);">
+                                <i class="fas fa-shield-alt"></i> SSL Güvenli
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-comments"></i>
+                    Yorumlar
+                </div>
+                <h2 class="section-title">Müşterilerimiz <span>Neydiyor?</span></h2>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="testimonial-text">
+                        "Instagram takipçi siparişim verdim, 3 gün içinde geldi. 
+                        Hesaplar gerçek görünüyor, hiç düşüş olmadı. Kesinlikle tavsiye ederim!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+                            A
+                        </div>
+                        <div>
+                            <div class="testimonial-name">Ahmet K.</div>
+                            <div class="testimonial-role">İşletme Sahibi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="testimonial-text">
+                        "YouTube abone artışı için kullandım. Kanalım 10K'ya çıktı ve 
+                        monetizasyon aldım. Süper bir deneyimdi!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background: linear-gradient(135deg, #e1306c, #c13584);">
+                            E
+                        </div>
+                        <div>
+                            <div class="testimonial-name">Elif M.</div>
+                            <div class="testimonial-role">YouTuber</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="testimonial-text">
+                        "TikTok izlenme siparişi verdim, videom viral oldu! 
+                        Fiyatlar çok uygun ve teslimat anında. 5 yıldır kullanıyorum."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background: linear-gradient(135deg, #f09433, #dc2743);">
+                            M
+                        </div>
+                        <div>
+                            <div class="testimonial-name">Mehmet S.</div>
+                            <div class="testimonial-role">İçerik Üreticisi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="sss" style="background: rgba(108, 92, 231, 0.03);">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-question-circle"></i>
+                    Sıkça Sorulan Sorular
+                </div>
+                <h2 class="section-title">Merak <span>Ettiğiniz</span> Her Şey</h2>
+            </div>
+
+            <div class="faq-container">
+                <div class="faq-item active">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Teslimat ne kadar sürer?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Teslimat süresi seçilen pakete göre değişir. Çoğu servis 1-7 gün içinde tamamlanır. 
+                            Hızlı başlangıçlı servislerde ilk işlemler birkaç dakika içinde başlar. 
+                            Toplam teslimat süresi sipariş detaylarında belirtilir.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Hangi ödeme yöntemlerini kabul ediyorsunuz?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Kredi/Banka kartı, Papara, Ininal, Havale/EFT, Kripto para (Bitcoin, USDT) 
+                            ve Google Pay ile ödeme yapabilirsiniz. Tüm ödemeler 256-bit SSL ile güvence altındadır.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Düşüş garantisi var mı?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Evet! Her paket için belirlenen garanti süresi boyunca düşüş olursa ücretsiz dolum yapılır. 
+                            Garantiler paket detaylarında belirtilir. Genellikle 30-60 gün garanti süresi sunuyoruz.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Hesaplar gerçek mi?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Evet, tüm servislerimiz gerçek, aktif hesaplardan sağlanır. Bot değil, gerçek kullanıcı 
+                            profilleridir. Profil resimleri, gönderileri ve takipçi sayıları olan hesapları tercih ederiz.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        API kullanabilir miyim?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Evet! Pro ve Enterprise planlarında API erişimi mevcuttur. RESTful API'miz ile 
+                            otomatik sipariş oluşturabilir, bakiyenizi kontrol edebilir ve sipariş durumunu takip edebilirsiniz. 
+                            API dokümantasyonu panel içinde ücretsiz erişilebilir.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Toplu sipariş indirimi var mı?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Elbette! 10,000+ adet siparişlerde %5-15 oranında indirim uygulanmaktadır. 
+                            Daha büyük miktarlar için iletişime geçerek özel fiyat alabilirsiniz. 
+                            Kurumsal müşterilere ek %10-20 indirim sağlıyoruz.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">S</div>
+                        <span class="logo-text">SMM Pro</span>
+                    </a>
+                    <p class="footer-desc">
+                        2020'den bu yana binlerce işletmenin ve bireyin sosyal medya 
+                        büyümesine yardımcı olan güvenilir SMM paneli.
+                    </p>
+                    <div class="footer-socials">
+                        <a href="#" class="footer-social"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="footer-social"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-social"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="footer-social"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="footer-social"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Hızlı Linkler</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Paketler</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Fiyatlar</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> API</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Kuponlar</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Destek</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> S.S.S</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Canlı Destek</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> WhatsApp</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Telegram</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Ticket Aç</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">İletişim</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@smmpro.com"><i class="fas fa-envelope"></i> info@smmpro.com</a></li>
+                        <li><a href="tel:+905551234567"><i class="fas fa-phone"></i> +90 555 123 45 67</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</a></li>
+                        <li><a href="#"><i class="fas fa-clock"></i> 7/24 Destek</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 SMM Pro Panel. Tüm hakları saklıdır.</p>
+                <div class="footer-payments">
+                    <span class="payment-icon">💳 Visa</span>
+                    <span class="payment-icon">💳 Mastercard</span>
+                    <span class="payment-icon">📱 Papara</span>
+                    <span class="payment-icon">🏦 EFT</span>
+                    <span class="payment-icon">₿ Kripto</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <div class="toast-icon" style="background: rgba(0, 184, 148, 0.15); color: var(--success);">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-text" id="toastText">İşlem başarılı!</div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ===== NAVBAR SCROLL =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ===== BACK TO TOP =====
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== MOBILE MENU =====
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileClose = document.getElementById('mobileClose');
+
+        mobileToggle.addEventListener('click', () => {
+            mobileNav.classList.add('open');
+        });
+
+        mobileClose.addEventListener('click', () => {
+            mobileNav.classList.remove('open');
+        });
+
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('open');
+            });
+        });
+
+        // ===== PLATFORM TABS =====
+        const platformTabs = document.querySelectorAll('.platform-tab');
+        const packageCards = document.querySelectorAll('.package-card');
+
+        platformTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                platformTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const platform = tab.dataset.platform;
+
+                packageCards.forEach(card => {
+                    if (platform === 'all' || card.dataset.category === platform) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeInUp 0.6s ease forwards';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // ===== COUNTER ANIMATION =====
+        const counters = document.querySelectorAll('.counter');
+        const observerOptions = { threshold: 0.5 };
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.dataset.target);
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+
+                    const updateCounter = () => {
+                        current += step;
+                        if (current < target) {
+                            counter.textContent = Math.floor(current).toLocaleString('tr-TR');
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = target.toLocaleString('tr-TR');
+                            if (target === 99) counter.textContent = '%99';
+                            if (target === 12) counter.textContent = '12';
+                        }
+                    };
+
+                    updateCounter();
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, observerOptions);
+
+        counters.forEach(counter => counterObserver.observe(counter));
+
+        // ===== FAQ TOGGLE =====
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            const isActive = faqItem.classList.contains('active');
+
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+
+        // ===== ORDER CALCULATION =====
+        const prices = {
+            'instagram-followers': { name: 'Instagram Takipçi', unit: 0.035, delivery: '1-7 gün', min: 1000, max: 100000 },
+            'instagram-likes': { name: 'Instagram Beğeni', unit: 0.015, delivery: '24-48 saat', min: 100, max: 10000 },
+            'instagram-views': { name: 'Instagram İzlenme', unit: 0.008, delivery: 'Anında', min: 1000, max: 1000000 },
+            'instagram-reels': { name: 'Instagram Reels', unit: 0.008, delivery: 'Anında', min: 1000, max: 1000000 },
+            'youtube-subscribers': { name: 'YouTube Abone', unit: 0.350, delivery: '3-14 gün', min: 100, max: 50000 },
+            'youtube-views': { name: 'YouTube İzlenme', unit: 0.025, delivery: '1-7 gün', min: 1000, max: 10000000 },
+            'youtube-likes': { name: 'YouTube Beğeni', unit: 0.040, delivery: 'Anında', min: 100, max: 500000 },
+            'twitter-followers': { name: 'Twitter Takipçi', unit: 0.050, delivery: '1-7 gün', min: 500, max: 100000 },
+            'twitter-likes': { name: 'Twitter Beğeni', unit: 0.030, delivery: 'Anında', min: 100, max: 50000 },
+            'twitter-views': { name: 'Twitter İzlenme', unit: 0.005, delivery: 'Anında', min: 1000, max: 1000000 },
+            'tiktok-views': { name: 'TikTok İzlenme', unit: 0.005, delivery: 'Anında', min: 1000, max: 50000000 },
+            'tiktok-followers': { name: 'TikTok Takipçi', unit: 0.020, delivery: '1-7 gün', min: 1000, max: 1000000 },
+            'tiktok-likes': { name: 'TikTok Beğeni', unit: 0.010, delivery: 'Anında', min: 500, max: 500000 },
+            'telegram-members': { name: 'Telegram Üye', unit: 0.020, delivery: '1-7 gün', min: 1000, max: 1000000 },
+            'telegram-views': { name: 'Telegram İzlenme', unit: 0.005, delivery: 'Anında', min: 1000, max: 1000000 },
+        };
+
+        function updateOrderSummary() {
+            const platform = document.getElementById('platformSelect').value;
+            const quantity = parseInt(document.getElementById('quantityInput').value) || 0;
+
+            if (platform && prices[platform]) {
+                const pkg = prices[platform];
+                let total = quantity * pkg.unit;
+                let discount = 0;
+
+                if (quantity >= 50000) discount = total * 0.15;
+                else if (quantity >= 10000) discount = total * 0.10;
+                else if (quantity >= 5000) discount = total * 0.05;
+
+                total -= discount;
+
+                document.getElementById('summaryPlatform').textContent = pkg.name;
+                document.getElementById('summaryTarget').textContent = '@kullanici_adi';
+                document.getElementById('summaryQuantity').textContent = quantity.toLocaleString('tr-TR');
+                document.getElementById('summaryUnitPrice').textContent = `₺${pkg.unit.toFixed(3)}`;
+                document.getElementById('summaryDiscount').textContent = `-₺${discount.toFixed(2)}`;
+                document.getElementById('summaryDiscount').style.color = discount > 0 ? 'var(--success)' : 'var(--text-secondary)';
+                document.getElementById('summaryDelivery').textContent = pkg.delivery;
+                document.getElementById('summaryTotal').textContent = `₺${total.toFixed(2)}`;
+            }
+        }
+
+        document.getElementById('platformSelect').addEventListener('change', updateOrderSummary);
+        document.getElementById('quantityInput').addEventListener('input', updateOrderSummary);
+
+        // ===== PLACE ORDER =====
+        function placeOrder() {
+            const platform = document.getElementById('platformSelect').value;
+            const quantity = document.getElementById('quantityInput').value;
+
+            if (!platform) {
+                showToast('Lütfen bir platform seçin!', 'error');
+                return;
+            }
+
+            if (!quantity || quantity < 100) {
+                showToast('Miktar en az 100 olmalıdır!', 'error');
+                return;
+            }
+
+            showToast('✅ Siparişiniz başarıyla oluşturuldu!');
+        }
+
+        // ===== TOAST =====
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toastText');
+            const toastIcon = toast.querySelector('.toast-icon');
+
+            toastText.textContent = message;
+
+            if (type === 'error') {
+                toastIcon.style.background = 'rgba(225, 112, 85, 0.15)';
+                toastIcon.style.color = 'var(--danger)';
+                toastIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+            } else {
+                toastIcon.style.background = 'rgba(0, 184, 148, 0.15)';
+                toastIcon.style.color = 'var(--success)';
+                toastIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+            }
+
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== SCROLL ANIMATIONS =====
+        const animateElements = document.querySelectorAll('.package-card, .feature-card, .stat-card, .pricing-card, .testimonial-card');
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                    entry.target.style.opacity = '1';
+                    scrollObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        animateElements.forEach(el => {
+            el.style.opacity = '0';
+            scrollObserver.observe(el);
+        });
+
+        // ===== RECENT ORDER POPUP =====
+        const recentOrders = [
+            { user: '@ahmet_yılmaz', service: '10,000 Instagram Beğeni', time: '2 dk önce' },
+            { user: '@elif_kaya', service: '5,000 YouTube İzlenme', time: '5 dk önce' },
+            { user: '@mehmet_90', service: '50,000 TikTok İzlenme', time: '8 dk önce' },
+            { user: '@zeynep.dev', service: '2,000 Twitter Takipçi', time: '12 dk önce' },
+            { user: '@can_tech', service: '100,000 Telegram Üye', time: '15 dk önce' },
+        ];
+
+        let orderIndex = 0;
+        setInterval(() => {
+            orderIndex = (orderIndex + 1) % recentOrders.length;
+            const order = recentOrders[orderIndex];
+            // Could show this as a notification popup
+        }, 5000);
+
+        // ===== INITIALIZE =====
+        updateOrderSummary();
+    </script>
+</body>
+</html>
