@@ -1,0 +1,2376 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R10net - Türkçe Forum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --primary-light: #4a90d9;
+            --bg-dark: #0f1419;
+            --bg-card: #1a1f2e;
+            --bg-card-hover: #222838;
+            --bg-sidebar: #151923;
+            --bg-header: #1e2433;
+            --text-primary: #e4e6eb;
+            --text-secondary: #8a8d92;
+            --text-muted: #5c6066;
+            --border: #2d3348;
+            --border-light: #3d4258;
+            --green: #30d158;
+            --green-dark: #24a846;
+            --yellow: #ffd60a;
+            --red: #ff453a;
+            --orange: #ff9f0a;
+            --purple: #bf5af2;
+            --pink: #ff375f;
+            --cyan: #64d2ff;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow: 0 2px 10px rgba(0,0,0,0.3);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-light);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--bg-header);
+            border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            backdrop-filter: blur(20px);
+            background: rgba(30, 36, 51, 0.95);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .menu-toggle:hover {
+            background: var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--gradient-3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: #0f1419;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .logo-text span {
+            color: var(--cyan);
+        }
+
+        .header-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 9px 16px 9px 42px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s;
+            outline: none;
+        }
+        .search-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+        }
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+        .search-box i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-btn {
+            position: relative;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-btn:hover {
+            background: var(--border);
+            color: var(--text-primary);
+        }
+        .header-btn .badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--red);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+        }
+
+        .header-btn-text {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .divider-v {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+            margin: 0 6px;
+        }
+
+        .user-avatar-header {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--border);
+            transition: all 0.2s;
+            object-fit: cover;
+        }
+        .user-avatar-header:hover {
+            border-color: var(--primary);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main-wrapper {
+            display: flex;
+            margin-top: 60px;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            padding: 16px 0;
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            z-index: 900;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-section {
+            padding: 8px 16px;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            padding-left: 12px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .sidebar-nav li a:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        .sidebar-nav li a.active {
+            background: rgba(26, 115, 232, 0.12);
+            color: var(--primary);
+        }
+        .sidebar-nav li a.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 0 3px 3px 0;
+        }
+        .sidebar-nav li a i {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .sidebar-nav .nav-badge {
+            margin-left: auto;
+            background: var(--red);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 10px;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 12px 16px;
+        }
+
+        /* Sidebar Stats */
+        .sidebar-stats {
+            padding: 16px;
+            margin: 8px 12px;
+            background: var(--bg-card);
+            border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+        }
+        .stat-item:not(:last-child) {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 2px;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stat-value {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .stat-value.online {
+            color: var(--green);
+        }
+
+        .online-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Online Users */
+        .online-users {
+            padding: 12px 16px;
+        }
+        .online-users-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .online-avatars {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .online-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid var(--bg-sidebar);
+            transition: all 0.2s;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+        }
+        .online-avatar:hover {
+            transform: scale(1.15);
+            z-index: 10;
+        }
+        .online-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 9px;
+            height: 9px;
+            background: var(--green);
+            border-radius: 50%;
+            border: 2px solid var(--bg-sidebar);
+        }
+
+        /* ===== CONTENT ===== */
+        .content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 20px;
+            max-width: 1200px;
+        }
+
+        /* ===== BANNER / HERO ===== */
+        .hero-banner {
+            background: var(--gradient-3);
+            border-radius: 18px;
+            padding: 30px 36px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: 15%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .hero-content h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f1419;
+            margin-bottom: 8px;
+        }
+        .hero-content p {
+            font-size: 14px;
+            color: rgba(15, 20, 25, 0.7);
+            font-weight: 500;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 10px;
+            z-index: 1;
+        }
+        .hero-btn {
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            border: none;
+        }
+        .hero-btn-primary {
+            background: #0f1419;
+            color: white;
+        }
+        .hero-btn-primary:hover {
+            background: #1a2030;
+            transform: translateY(-1px);
+        }
+        .hero-btn-secondary {
+            background: rgba(255,255,255,0.25);
+            color: #0f1419;
+        }
+        .hero-btn-secondary:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        /* ===== QUICK STATS ===== */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .quick-stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .quick-stat-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .quick-stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .quick-stat-info h3 {
+            font-size: 20px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+        .quick-stat-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ===== CATEGORY HEADER ===== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title i {
+            font-size: 16px;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .view-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .view-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--border-light);
+        }
+        .view-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* ===== FORUM CATEGORY ===== */
+        .forum-category {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .forum-category:hover {
+            border-color: var(--border-light);
+        }
+
+        .category-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.15);
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .category-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .category-info h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .category-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .category-right {
+            display: flex;
+            gap: 30px;
+        }
+        .category-stat {
+            text-align: center;
+        }
+        .category-stat .num {
+            font-size: 15px;
+            font-weight: 700;
+        }
+        .category-stat .label {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .category-toggle {
+            color: var(--text-muted);
+            font-size: 14px;
+            transition: transform 0.3s;
+        }
+        .category-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        /* Subcategories */
+        .subcategory-list {
+            list-style: none;
+        }
+
+        .subcategory {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-top: 1px solid var(--border);
+            transition: background 0.15s;
+            gap: 14px;
+        }
+        .subcategory:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .sub-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .sub-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .sub-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sub-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sub-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        .sub-stat {
+            text-align: center;
+            min-width: 50px;
+        }
+        .sub-stat .num {
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .sub-stat .label {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .last-post {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 220px;
+        }
+        .last-post-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+        }
+        .last-post-info {
+            min-width: 0;
+        }
+        .last-post-title {
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .last-post-title:hover {
+            color: var(--primary);
+        }
+        .last-post-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sub-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-hot {
+            background: rgba(255, 69, 58, 0.15);
+            color: var(--red);
+        }
+        .badge-new {
+            background: rgba(48, 209, 88, 0.15);
+            color: var(--green);
+        }
+        .badge-pinned {
+            background: rgba(255, 214, 10, 0.15);
+            color: var(--yellow);
+        }
+        .badge-closed {
+            background: rgba(92, 96, 102, 0.15);
+            color: var(--text-muted);
+        }
+
+        /* ===== RECENT TOPICS ===== */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .topic-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .topic-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+        .topic-card.hot::before { background: var(--red); }
+        .topic-card.trend::before { background: var(--yellow); }
+        .topic-card.new::before { background: var(--green); }
+        .topic-card.info::before { background: var(--primary); }
+
+        .topic-category-tag {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .topic-title {
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .topic-card:hover .topic-title {
+            color: var(--primary);
+        }
+
+        .topic-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .topic-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .topic-author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: white;
+        }
+        .topic-author-name {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .topic-stats-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .topic-stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .topic-stat-item i {
+            font-size: 12px;
+        }
+
+        /* ===== SIDEBAR WIDGETS ===== */
+        .sidebar-widget {
+            padding: 16px;
+            margin: 0 12px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .widget-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        .widget-title i {
+            color: var(--primary);
+        }
+
+        /* Trending */
+        .trending-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .trending-item:not(:last-child) {
+            border-bottom: 1px solid var(--border);
+        }
+        .trending-item:hover {
+            padding-left: 4px;
+        }
+        .trending-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .trending-item:nth-child(1) .trending-num { background: rgba(255, 214, 10, 0.15); color: var(--yellow); }
+        .trending-item:nth-child(2) .trending-num { background: rgba(26, 115, 232, 0.15); color: var(--primary); }
+        .trending-item:nth-child(3) .trending-num { background: rgba(48, 209, 88, 0.15); color: var(--green); }
+        .trending-item:nth-child(n+4) .trending-num { background: var(--border); color: var(--text-muted); }
+
+        .trending-info h4 {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 3px;
+        }
+        .trending-info p {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Members */
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 0;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .member-item:hover {
+            padding-left: 4px;
+        }
+        .member-item:not(:last-child) {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .member-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .member-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 2px solid var(--bg-card);
+        }
+        .member-info {
+            min-width: 0;
+        }
+        .member-name {
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .member-role {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .member-rank {
+            margin-left: auto;
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* Poll Widget */
+        .poll-question {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .poll-option {
+            margin-bottom: 10px;
+        }
+        .poll-option-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            margin-bottom: 4px;
+            cursor: pointer;
+        }
+        .poll-option-label input[type="radio"] {
+            accent-color: var(--primary);
+        }
+        .poll-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .poll-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+        .poll-stats {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+        .poll-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .poll-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-left: 260px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-sidebar);
+            padding: 24px 20px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+                box-shadow: var(--shadow-lg);
+            }
+            .content {
+                margin-left: 0;
+            }
+            .footer {
+                margin-left: 0;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .category-right {
+                gap: 20px;
+            }
+            .last-post {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .header-center {
+                display: none;
+            }
+            .header-btn-text {
+                display: none;
+            }
+            .category-right {
+                display: none;
+            }
+            .last-post {
+                display: none;
+            }
+            .hero-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 24px 20px;
+            }
+            .hero-content h1 {
+                font-size: 20px;
+            }
+            .hero-actions {
+                margin-top: 16px;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+            .content {
+                padding: 14px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Backdrop overlay for mobile sidebar */
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 899;
+        }
+        .sidebar-backdrop.active {
+            display: block;
+        }
+
+        /* ===== NOTIFICATION DROPDOWN ===== */
+        .notification-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 360px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow-lg);
+            display: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+        .notification-dropdown.show {
+            display: block;
+            animation: fadeInUp 0.2s ease;
+        }
+
+        .notif-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notif-header h4 {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .notif-header a {
+            font-size: 12px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .notif-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .notif-item:hover {
+            background: var(--bg-card-hover);
+        }
+        .notif-item.unread {
+            background: rgba(26, 115, 232, 0.06);
+        }
+        .notif-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+        .notif-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .notif-text {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .notif-text strong {
+            font-weight: 600;
+        }
+        .notif-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        /* Tab styles for content switching */
+        .content-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 4px;
+            border: 1px solid var(--border);
+        }
+        .content-tab {
+            padding: 8px 18px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+        }
+        .content-tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+        }
+        .content-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a href="#" class="logo">
+                <div class="logo-icon">R10</div>
+                <div class="logo-text">R10<span>net</span></div>
+            </a>
+        </div>
+
+        <div class="header-center">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Forumda ara...">
+            </div>
+        </div>
+
+        <div class="header-right">
+            <button class="header-btn" title="Mesajlar">
+                <i class="fas fa-envelope"></i>
+                <span class="badge">3</span>
+                <span class="header-btn-text">Mesajlar</span>
+            </button>
+            <button class="header-btn" id="notifBtn" style="position:relative" onclick="toggleNotifications()">
+                <i class="fas fa-bell"></i>
+                <span class="badge">5</span>
+            </button>
+            <div class="notification-dropdown" id="notifDropdown">
+                <div class="notif-header">
+                    <h4>Bildirimler</h4>
+                    <a href="#">Tümünü Oku</a>
+                </div>
+                <div class="notif-item unread">
+                    <div class="notif-icon" style="background:rgba(26,115,232,0.15);color:var(--primary)">
+                        <i class="fas fa-comment"></i>
+                    </div>
+                    <div class="notif-content">
+                        <div class="notif-text"><strong>ahmet_yilmaz</strong> konunuzu beğendi: "2024 En İyi Telefonlar"</div>
+                        <div class="notif-time">5 dakika önce</div>
+                    </div>
+                </div>
+                <div class="notif-item unread">
+                    <div class="notif-icon" style="background:rgba(48,209,88,0.15);color:var(--green)">
+                        <i class="fas fa-reply"></i>
+                    </div>
+                    <div class="notif-content">
+                        <div class="notif-text"><strong>elif_k</strong> mesajınıza yanıt verdi</div>
+                        <div class="notif-time">22 dakika önce</div>
+                    </div>
+                </div>
+                <div class="notif-item">
+                    <div class="notif-icon" style="background:rgba(255,214,10,0.15);color:var(--yellow)">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="notif-content">
+                        <div class="notif-text">Kullanıcınız <strong>"Popüler Üye"</strong> rozetini aldı! 🎉</div>
+                        <div class="notif-time">1 saat önce</div>
+                    </div>
+                </div>
+                <div class="notif-item">
+                    <div class="notif-icon" style="background:rgba(191,90,242,0.15);color:var(--purple)">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="notif-content">
+                        <div class="notif-text"><strong>mehmet55</strong> sizi takibe aldı</div>
+                        <div class="notif-time">3 saat önce</div>
+                    </div>
+                </div>
+            </div>
+            <div class="divider-v"></div>
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%234facfe'/%3E%3Ctext x='20' y='25' text-anchor='middle' fill='white' font-size='16' font-weight='bold' font-family='Arial'%3EAK%3C/text%3E%3C/svg%3E" alt="Avatar" class="user-avatar-header">
+        </div>
+    </header>
+
+    <!-- ===== MAIN WRAPPER ===== -->
+    <div class="main-wrapper">
+        <!-- Sidebar Backdrop -->
+        <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Menü</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> Ana Sayfa <span class="nav-badge">12</span></a></li>
+                    <li><a href="#"><i class="fas fa-compass"></i> Keşfet</a></li>
+                    <li><a href="#"><i class="fas fa-fire"></i> Trend Konular</a></li>
+                    <li><a href="#"><i class="fas fa-bookmark"></i> Takip Ettiklerim</a></li>
+                    <li><a href="#"><i class="fas fa-history"></i> Son Ziyaretler</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Kategoriler</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#"><i class="fas fa-gamepad"></i> Oyun</a></li>
+                    <li><a href="#"><i class="fas fa-laptop"></i> Teknoloji</a></li>
+                    <li><a href="#"><i class="fas fa-briefcase"></i> İş & Kariyer</a></li>
+                    <li><a href="#"><i class="fas fa-graduation-cap"></i> Eğitim</a></li>
+                    <li><a href="#"><i class="fas fa-video"></i> Medya</a></li>
+                    <li><a href="#"><i class="fas fa-heart"></i> Genel Sohbet</a></li>
+                    <li><a href="#"><i class="fas fa-music"></i> Müzik</a></li>
+                    <li><a href="#"><i class="fas fa-film"></i> Sinema & Dizi</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-stats">
+                <div class="stat-item">
+                    <span class="stat-label"><span class="online-dot"></span> Çevrimiçi</span>
+                    <span class="stat-value online">1,247</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label"><i class="fas fa-users" style="color:var(--primary)"></i> Toplam Üye</span>
+                    <span class="stat-value">524,891</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label"><i class="fas fa-comments" style="color:var(--green)"></i> Toplam Mesaj</span>
+                    <span class="stat-value">8,432,105</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label"><i class="fas fa-user-plus" style="color:var(--cyan)"></i> Yeni Üye</span>
+                    <span class="stat-value">38</span>
+                </div>
+            </div>
+
+            <div class="online-users">
+                <div class="online-users-title">
+                    <span class="online-dot"></span> Çevrimiçi Üyeler
+                </div>
+                <div class="online-avatars">
+                    <div class="online-avatar" style="background:var(--gradient-1)" title="ahmet_yilmaz">AY</div>
+                    <div class="online-avatar" style="background:var(--gradient-2)" title="elif_k">EK</div>
+                    <div class="online-avatar" style="background:var(--gradient-3)" title="mehmet55">M5</div>
+                    <div class="online-avatar" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)" title="zeynep99">Z9</div>
+                    <div class="online-avatar" style="background:linear-gradient(135deg,#ffecd2,#fcb69f)" title="can_tr">CT</div>
+                    <div class="online-avatar" style="background:linear-gradient(135deg,#89f7fe,#66a6ff)" title="ayse123">A3</div>
+                    <div class="online-avatar" style="background:linear-gradient(135deg,#f6d365,#fda085)" title="burak_">BK</div>
+                    <div class="online-avatar" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)" title="elmas">EL</div>
+                    <div class="online-avatar" style="background:linear-gradient(135deg,#84fab0,#8fd3f4)" title="selin_">SL</div>
+                    <div class="online-avatar" style="background:linear-gradient(135deg,#ff9a9e,#fad0c4)" title="kerem01">K1</div>
+                    <div class="online-avatar" style="background:linear-gradient(135deg,#c2e9fb,#a1c4fd)" title="deniz_">DZ</div>
+                    <div class="online-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c)" title="mert_">MR</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ===== CONTENT ===== -->
+        <main class="content">
+            <!-- Hero Banner -->
+            <div class="hero-banner animate-in">
+                <div class="hero-content">
+                    <h1>👋 Hoş geldin, Ahmet!</h1>
+                    <p>Topluluğa katıl, konulara katıl ve arkadaşlar edin.</p>
+                </div>
+                <div class="hero-actions">
+                    <a href="#" class="hero-btn hero-btn-primary">Konu Başlat</a>
+                    <a href="#" class="hero-btn hero-btn-secondary">Yeni Üye Ol</a>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="quick-stat-card animate-in delay-1">
+                    <div class="quick-stat-icon" style="background:rgba(26,115,232,0.15);color:var(--primary)">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="quick-stat-info">
+                        <h3>8.4M</h3>
+                        <p>Toplam Mesaj</p>
+                    </div>
+                </div>
+                <div class="quick-stat-card animate-in delay-2">
+                    <div class="quick-stat-icon" style="background:rgba(48,209,88,0.15);color:var(--green)">
+                        <i class="fas fa-hashtag"></i>
+                    </div>
+                    <div class="quick-stat-info">
+                        <h3>342K</h3>
+                        <p>Toplam Konu</p>
+                    </div>
+                </div>
+                <div class="quick-stat-card animate-in delay-3">
+                    <div class="quick-stat-icon" style="background:rgba(191,90,242,0.15);color:var(--purple)">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="quick-stat-info">
+                        <h3>524K</h3>
+                        <p>Toplam Üye</p>
+                    </div>
+                </div>
+                <div class="quick-stat-card animate-in delay-4">
+                    <div class="quick-stat-icon" style="background:rgba(255,214,10,0.15);color:var(--yellow)">
+                        <span class="online-dot"></span>
+                    </div>
+                    <div class="quick-stat-info">
+                        <h3>1,247</h3>
+                        <p>Şu An Aktif</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Tabs -->
+            <div class="content-tabs">
+                <button class="content-tab active" onclick="switchTab(this)">Tümü</button>
+                <button class="content-tab" onclick="switchTab(this)">Oyun</button>
+                <button class="content-tab" onclick="switchTab(this)">Teknoloji</button>
+                <button class="content-tab" onclick="switchTab(this)">İş</button>
+                <button class="content-tab" onclick="switchTab(this)">Genel</button>
+            </div>
+
+            <!-- Forum Categories -->
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="fas fa-th-large" style="color:var(--primary)"></i>
+                    Forum Kategorileri
+                </div>
+            </div>
+
+            <!-- Game Category -->
+            <div class="forum-category">
+                <div class="category-header" onclick="toggleCategory(this)">
+                    <div class="category-left">
+                        <div class="category-icon" style="background:rgba(255,69,58,0.15);color:var(--red)">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="category-info">
+                            <h3>Oyun</h3>
+                            <p>Oyun haberleri, incelemeler, tartışmalar</p>
+                        </div>
+                    </div>
+                    <div class="category-right">
+                        <div class="category-stat">
+                            <div class="num">18,432</div>
+                            <div class="label">Konu</div>
+                        </div>
+                        <div class="category-stat">
+                            <div class="num">1.2M</div>
+                            <div class="label">Mesaj</div>
+                        </div>
+                        <div class="category-stat">
+                            <div class="num">89</div>
+                            <div class="label">Aktif</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down category-toggle open"></i>
+                </div>
+                <ul class="subcategory-list">
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(255,69,58,0.12);color:var(--red)">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>PC Oyunları</h4>
+                            <p>Steam, Epic Games, Steam Deck ve masaüstü oyun tartışmaları</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">5,234</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">432K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:var(--gradient-1)">AY</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">GTA 6 Çıkış Tarihi Kesinleşti! 🎮</div>
+                                    <div class="last-post-meta">ahmet_yilmaz • 2 dk önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(26,115,232,0.12);color:var(--primary)">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>Mobil Oyunlar</h4>
+                            <p>Android ve iOS oyunları hakkında her şey</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">3,891</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">210K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:var(--gradient-2)">EK</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">Clash of Clans Yeni Sezon</div>
+                                    <div class="last-post-meta">elif_k • 15 dk önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(48,209,88,0.12);color:var(--green)">
+                            <i class="fas fa-tv"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>Konsol Oyunları</h4>
+                            <p>PlayStation, Xbox, Nintendo Switch tartışmaları</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">4,567</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">321K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:var(--gradient-3)">M5</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">PS5 Pro İncelemesi - Değer mi?</div>
+                                    <div class="last-post-meta">mehmet55 • 1 saat önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(191,90,242,0.12);color:var(--purple)">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>Yarışma & Turnuvalar</h4>
+                            <p>E-spor, turnuvalar ve yarışmalar</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">2,100</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">89K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">Z9</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">LoL World Championship 2024</div>
+                                    <div class="last-post-meta">zeynep99 • 45 dk önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Technology Category -->
+            <div class="forum-category">
+                <div class="category-header" onclick="toggleCategory(this)">
+                    <div class="category-left">
+                        <div class="category-icon" style="background:rgba(26,115,232,0.15);color:var(--primary)">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="category-info">
+                            <h3>Teknoloji</h3>
+                            <p>Teknoloji haberleri, donanım, yazılım</p>
+                        </div>
+                    </div>
+                    <div class="category-right">
+                        <div class="category-stat">
+                            <div class="num">24,108</div>
+                            <div class="label">Konu</div>
+                        </div>
+                        <div class="category-stat">
+                            <div class="num">2.1M</div>
+                            <div class="label">Mesaj</div>
+                        </div>
+                        <div class="category-stat">
+                            <div class="num">134</div>
+                            <div class="label">Aktif</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down category-toggle open"></i>
+                </div>
+                <ul class="subcategory-list">
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(26,115,232,0.12);color:var(--primary)">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>Telefon</h4>
+                            <p>Akıllı telefonlar, incelemeler, öneriler</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">8,901</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">567K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:var(--gradient-1)">AY</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">iPhone 16 Pro Max vs Samsung S24 Ultra <span class="sub-badge badge-hot">HOT</span></div>
+                                    <div class="last-post-meta">ahmet_yilmaz • 5 dk önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(48,209,88,0.12);color:var(--green)">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>Bilgisayar & Donanım</h4>
+                            <p>PC, laptop, GPU, RAM, işlemci tartışmaları</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">6,234</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">423K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:var(--gradient-3)">M5</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">RTX 5090 Fiyatı Açıklandı!</div>
+                                    <div class="last-post-meta">mehmet55 • 30 dk önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(191,90,242,0.12);color:var(--purple)">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>Yapay Zeka</h4>
+                            <p>AI haberleri, ChatGPT, Midjourney, Claude ve daha fazlası</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">3,456</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">198K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:var(--gradient-2)">EK</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">GPT-5 Çıktı! Her Şey Değişti mi? <span class="sub-badge badge-new">YENİ</span></div>
+                                    <div class="last-post-meta">elif_k • 1 saat önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(255,159,10,0.12);color:var(--orange)">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>İnternet & Altyapı</h4>
+                            <p>İnternet sağlayıcıları, fiber, mobil veri</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">2,789</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">145K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">Z9</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">Türk Telekom vs Turkuaz - Karşılaştırma</div>
+                                    <div class="last-post-meta">zeynep99 • 2 saat önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Work & Career Category -->
+            <div class="forum-category">
+                <div class="category-header" onclick="toggleCategory(this)">
+                    <div class="category-left">
+                        <div class="category-icon" style="background:rgba(48,209,88,0.15);color:var(--green)">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="category-info">
+                            <h3>İş & Kariyer</h3>
+                            <p>İş ilanları, kariyer, freelance</p>
+                        </div>
+                    </div>
+                    <div class="category-right">
+                        <div class="category-stat">
+                            <div class="num">12,567</div>
+                            <div class="label">Konu</div>
+                        </div>
+                        <div class="category-stat">
+                            <div class="num">890K</div>
+                            <div class="label">Mesaj</div>
+                        </div>
+                        <div class="category-stat">
+                            <div class="num">67</div>
+                            <div class="label">Aktif</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down category-toggle open"></i>
+                </div>
+                <ul class="subcategory-list">
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(48,209,88,0.12);color:var(--green)">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>İş İlanları</h4>
+                            <p>İş ilanları paylaşımı ve başvurular</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">4,321</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">234K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:linear-gradient(135deg,#ffecd2,#fcb69f)">CT</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">[İLAN] Senior Frontend Developer - Uzak Çalışma</div>
+                                    <div class="last-post-meta">can_tr • 10 dk önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(26,115,232,0.12);color:var(--primary)">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>Teknoloji Şirketleri</h4>
+                            <p>Big Tech, startup'lar, şirket değerlendirmeleri</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">3,100</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">178K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:var(--gradient-1)">AY</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">Google vs Microsoft: Hangisi Daha İyi? <span class="sub-badge badge-pinned">SABİT</span></div>
+                                    <div class="last-post-meta">ahmet_yilmaz • 3 saat önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(255,55,95,0.12);color:var(--pink)">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>Maaş & Finans</h4>
+                            <p>Maaş tartışmaları, finansal okuryazarlık</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">2,890</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">156K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:var(--gradient-2)">EK</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">2024 Yazılımcı Maaşları - Güncel Tablo</div>
+                                    <div class="last-post-meta">elif_k • 45 dk önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Education Category -->
+            <div class="forum-category">
+                <div class="category-header" onclick="toggleCategory(this)">
+                    <div class="category-left">
+                        <div class="category-icon" style="background:rgba(191,90,242,0.15);color:var(--purple)">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="category-info">
+                            <h3>Eğitim</h3>
+                            <p>Üniversite, kurslar, öğrenme kaynakları</p>
+                        </div>
+                    </div>
+                    <div class="category-right">
+                        <div class="category-stat">
+                            <div class="num">9,876</div>
+                            <div class="label">Konu</div>
+                        </div>
+                        <div class="category-stat">
+                            <div class="num">654K</div>
+                            <div class="label">Mesaj</div>
+                        </div>
+                        <div class="category-stat">
+                            <div class="num">45</div>
+                            <div class="label">Aktif</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down category-toggle open"></i>
+                </div>
+                <ul class="subcategory-list">
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(191,90,242,0.12);color:var(--purple)">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>Üniversiteler</h4>
+                            <p>Türk ve yabancı üniversiteler hakkında bilgi</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">4,567</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">312K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:var(--gradient-3)">M5</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">ODTÜ vs İTÜ Bilgisayar Mühendisliği</div>
+                                    <div class="last-post-meta">mehmet55 • 2 saat önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="subcategory">
+                        <div class="sub-icon" style="background:rgba(100,210,255,0.12);color:var(--cyan)">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="sub-info">
+                            <h4>Online Eğitim</h4>
+                            <p>Kurslar, bootcamp, sertifika programları</p>
+                        </div>
+                        <div class="sub-meta">
+                            <div class="sub-stat">
+                                <div class="num">3,210</div>
+                                <div class="label">Konu</div>
+                            </div>
+                            <div class="sub-stat">
+                                <div class="num">198K</div>
+                                <div class="label">Mesaj</div>
+                            </div>
+                            <div class="last-post">
+                                <div class="last-post-avatar" style="background:linear-gradient(135deg,#84fab0,#8fd3f4)">A3</div>
+                                <div class="last-post-info">
+                                    <div class="last-post-title">Udemy vs Coursera - Hangisi Daha İyi?</div>
+                                    <div class="last-post-meta">ayse123 • 5 saat önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Recent Topics / Trending -->
+            <div class="section-header" style="margin-top:10px">
+                <div class="section-title">
+                    <i class="fas fa-fire" style="color:var(--red)"></i>
+                    Trend Konular
+                </div>
+            </div>
+
+            <div class="topics-grid">
+                <div class="topic-card hot">
+                    <span class="topic-category-tag" style="color:var(--red)">🔥 Popüler</span>
+                    <h3 class="topic-title">Apple Vision Pro Türkiye Fiyatı ve Kullanım Deneyimi [Güncel]</h3>
+                    <div class="topic-footer">
+                        <div class="topic-author">
+                            <div class="topic-author-avatar" style="background:var(--gradient-1)">AY</div>
+                            <span class="topic-author-name">ahmet_yilmaz</span>
+                        </div>
+                        <div class="topic-stats-row">
+                            <span class="topic-stat-item"><i class="fas fa-comment"></i> 1,234</span>
+                            <span class="topic-stat-item"><i class="fas fa-eye"></i> 45.6K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="topic-card trend">
+                    <span class="topic-category-tag" style="color:var(--yellow)">⭐ Öne Çıkan</span>
+                    <h3 class="topic-title">2024'te Freelance Yaparken Dikkat Etmeniz Gereken 20 Şey</h3>
+                    <div class="topic-footer">
+                        <div class="topic-author">
+                            <div class="topic-author-avatar" style="background:var(--gradient-2)">EK</div>
+                            <span class="topic-author-name">elif_k</span>
+                        </div>
+                        <div class="topic-stats-row">
+                            <span class="topic-stat-item"><i class="fas fa-comment"></i> 892</span>
+                            <span class="topic-stat-item"><i class="fas fa-eye"></i> 23.4K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="topic-card new">
+                    <span class="topic-category-tag" style="color:var(--green)">🆕 Yeni</span>
+                    <h3 class="topic-title">Rust Programlama Dili Neden Bu Kadar Hızlı? Detaylı Analiz</h3>
+                    <div class="topic-footer">
+                        <div class="topic-author">
+                            <div class="topic-author-avatar" style="background:var(--gradient-3)">M5</div>
+                            <span class="topic-author-name">mehmet55</span>
+                        </div>
+                        <div class="topic-stats-row">
+                            <span class="topic-stat-item"><i class="fas fa-comment"></i> 456</span>
+                            <span class="topic-stat-item"><i class="fas fa-eye"></i> 12.1K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="topic-card info">
+                    <span class="topic-category-tag" style="color:var(--primary)">💡 Bilgi</span>
+                    <h3 class="topic-title">Türk Şirketlerinin Yabancı Yatırım Harcamaları [2024 Verileri]</h3>
+                    <div class="topic-footer">
+                        <div class="topic-author">
+                            <div class="topic-author-avatar" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">Z9</div>
+                            <span class="topic-author-name">zeynep99</span>
+                        </div>
+                        <div class="topic-stats-row">
+                            <span class="topic-stat-item"><i class="fas fa-comment"></i> 678</span>
+                            <span class="topic-stat-item"><i class="fas fa-eye"></i> 18.9K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ===== RIGHT SIDEBAR ===== -->
+        <aside class="sidebar" style="right:0;left:auto;width:300px;border-right:none;border-left:1px solid var(--border);padding:16px 0">
+            <!-- Trending -->
+            <div class="sidebar-widget">
+                <div class="widget-title">
+                    <i class="fas fa-chart-line"></i>
+                    Trend Konular
+                </div>
+                <div class="trending-item">
+                    <div class="trending-num">1</div>
+                    <div class="trending-info">
+                        <h4>iPhone 16 vs Samsung S25</h4>
+                        <p>2.3K mesaj • 45 dk önce</p>
+                    </div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-num">2</div>
+                    <div class="trending-info">
+                        <h4>GTA 6 Resmen Açıklandı</h4>
+                        <p>1.8K mesaj • 1 saat önce</p>
+                    </div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-num">3</div>
+                    <div class="trending-info">
+                        <h4>Yapay Zeka İle Para Kazanma</h4>
+                        <p>956 mesaj • 2 saat önce</p>
+                    </div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-num">4</div>
+                    <div class="trending-info">
+                        <h4>Netflix Fiyat Artışı 2024</h4>
+                        <p>743 mesaj • 3 saat önce</p>
+                    </div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-num">5</div>
+                    <div class="trending-info">
+                        <h4>Steam Yaz İndirimleri</h4>
+                        <p>521 mesaj • 5 saat önce</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Members -->
+            <div class="sidebar-widget">
+                <div class="widget-title">
+                    <i class="fas fa-crown" style="color:var(--yellow)"></i>
+                    Popüler Üyeler
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar" style="background:var(--gradient-1)">AY</div>
+                    <div class="member-info">
+                        <div class="member-name">ahmet_yilmaz</div>
+                        <div class="member-role">Moderatör</div>
+                    </div>
+                    <div class="member-rank" style="color:var(--yellow)">👑 #1</div>
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar" style="background:var(--gradient-2)">EK</div>
+                    <div class="member-info">
+                        <div class="member-name">elif_k</div>
+                        <div class="member-role">Yönetici</div>
+                    </div>
+                    <div class="member-rank" style="color:var(--text-muted)">🥈 #2</div>
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar" style="background:var(--gradient-3)">M5</div>
+                    <div class="member-info">
+                        <div class="member-name">mehmet55</div>
+                        <div class="member-role">Üye</div>
+                    </div>
+                    <div class="member-rank" style="color:#cd7f32">🥉 #3</div>
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">Z9</div>
+                    <div class="member-info">
+                        <div class="member-name">zeynep99</div>
+                        <div class="member-role">Üye</div>
+                    </div>
+                    <div class="member-rank">#4</div>
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar" style="background:linear-gradient(135deg,#ffecd2,#fcb69f)">CT</div>
+                    <div class="member-info">
+                        <div class="member-name">can_tr</div>
+                        <div class="member-role">Üye</div>
+                    </div>
+                    <div class="member-rank">#5</div>
+                </div>
+            </div>
+
+            <!-- Poll Widget -->
+            <div class="sidebar-widget">
+                <div class="widget-title">
+                    <i class="fas fa-poll" style="color:var(--pink)"></i>
+                    Anket
+                </div>
+                <div class="poll-question">2024'ün En İyi Telefonu Hangisi?</div>
+                <div class="poll-option">
+                    <label class="poll-option-label">
+                        <input type="radio" name="poll" value="iphone"> iPhone 16 Pro Max
+                    </label>
+                    <div class="poll-bar"><div class="poll-bar-fill" style="width:42%;background:var(--primary)"></div></div>
+                    <div class="poll-stats"><span>42%</span><span>1,267 oy</span></div>
+                </div>
+                <div class="poll-option">
+                    <label class="poll-option-label">
+                        <input type="radio" name="poll" value="samsung"> Samsung S24 Ultra
+                    </label>
+                    <div class="poll-bar"><div class="poll-bar-fill" style="width:35%;background:var(--green)"></div></div>
+                    <div class="poll-stats"><span>35%</span><span>1,056 oy</span></div>
+                </div>
+                <div class="poll-option">
+                    <label class="poll-option-label">
+                        <input type="radio" name="poll" value="pixel"> Google Pixel 9 Pro
+                    </label>
+                    <div class="poll-bar"><div class="poll-bar-fill" style="width:15%;background:var(--yellow)"></div></div>
+                    <div class="poll-stats"><span>15%</span><span>452 oy</span></div>
+                </div>
+                <div class="poll-option">
+                    <label class="poll-option-label">
+                        <input type="radio" name="poll" value="xiaomi"> Xiaomi 14 Ultra
+                    </label>
+                    <div class="poll-bar"><div class="poll-bar-fill" style="width:8%;background:var(--orange)"></div></div>
+                    <div class="poll-stats"><span>8%</span><span>241 oy</span></div>
+                </div>
+                <div class="poll-btn">Oyla (3,016 oy)</div>
+            </div>
+
+            <!-- Recent Online Members -->
+            <div class="sidebar-widget">
+                <div class="widget-title">
+                    <i class="fas fa-clock" style="color:var(--cyan)"></i>
+                    Son 24 Saatte Katılan
+                </div>
+                <div class="trending-item">
+                    <div class="trending-info">
+                        <h4>📝 156 yeni konu</h4>
+                        <p>Son 24 saat</p>
+                    </div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-info">
+                        <h4>💬 2,341 yeni mesaj</h4>
+                        <p>Son 24 saat</p>
+                    </div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-info">
+                        <h4>👥 89 yeni üye</h4>
+                        <p>Son 24 saat</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Hakkımızda</a>
+                <a href="#">Kurallar</a>
+                <a href="#">Reklam</a>
+                <a href="#">İletişim</a>
+                <a href="#">SSS</a>
+                <a href="#">API</a>
+                <a href="#">RSS</a>
+            </div>
+            <div class="footer-copy">
+                © 2024 R10net — Tüm hakları saklıdır.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            sidebar.classList.toggle('active');
+            backdrop.classList.toggle('active');
+        }
+
+        // Toggle Category
+        function toggleCategory(header) {
+            const list = header.nextElementSibling;
+            const icon = header.querySelector('.category-toggle');
+            
+            if (list.style.display === 'none') {
+                list.style.display = 'block';
+                icon.classList.add('open');
+            } else {
+                list.style.display = 'none';
+                icon.classList.remove('open');
+            }
+        }
+
+        // Toggle Notifications
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notifDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close notifications on outside click
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('notifDropdown');
+            const btn = document.getElementById('notifBtn');
+            if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Tab switching
+        function switchTab(btn) {
+            document.querySelectorAll('.content-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // Animate stats on scroll
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(eased * (end - start) + start);
+                element.textContent = current.toLocaleString('tr-TR');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.forum-category, .topic-card, .quick-stat-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.5s ease';
+            observer.observe(el);
+        });
+
+        // Hover effect on subcategories
+        document.querySelectorAll('.subcategory').forEach(sub => {
+            sub.addEventListener('click', function() {
+                this.style.transform = 'scale(0.99)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>
